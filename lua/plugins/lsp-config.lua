@@ -23,9 +23,9 @@ return {
         nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
         nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-        nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-        nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-        nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+        nmap("<leader>gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        nmap("<leader>gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+        nmap("<leader>gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
         nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
         nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
         nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
@@ -96,7 +96,7 @@ return {
             null_ls.builtins.formatting.eslint_d,
           },
         })
-        vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+        vim.keymap.set("n", "<leader>fd", vim.lsp.buf.format, {})
       end,
     },
   },
