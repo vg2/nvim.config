@@ -1,3 +1,8 @@
+keymapOpts = function(opts, description)
+  opts.desc = description
+  return opts
+end
+
 return {
   {
     "romgrk/barbar.nvim",
@@ -51,10 +56,10 @@ return {
       -- Magic buffer-picking mode
       map("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
       -- Sort automatically by...
-      map("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
-      map("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
-      map("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", opts)
-      map("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
+      map("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", keymapOpts(opts, "[B]arbar order by [b]uffer number"))
+      map("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", keymapOpts(opts, "[B]arbar order by [d]irectory"))
+      map("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", keymapOpts(opts, "[B]arbar order by [l]anguage"))
+      map("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", keymapOpts(opts, "[B]arbar order by [w]indow number"))
 
       -- Other:
       -- :BarbarEnable - enables barbar (enabled by default)
