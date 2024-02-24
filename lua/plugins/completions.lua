@@ -38,8 +38,8 @@ return {
           { name = "buffer" },
         }),
         experimental = {
-          ghost_text = true
-        }
+          ghost_text = true,
+        },
       })
       require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -69,6 +69,14 @@ return {
           { name = "cmdline" },
         }),
       })
+    end,
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function(_, opts)
+      require("lsp_signature").setup(opts)
     end,
   },
 }
