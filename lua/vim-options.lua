@@ -18,6 +18,17 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.wo.number = true
 vim.o.relativenumber = true
 
+vim.api.nvim_create_autocmd("InsertEnter", {
+	callback = function()
+		vim.o.relativenumber = false
+	end,
+})
+vim.api.nvim_create_autocmd("InsertLeave", {
+	callback = function()
+		vim.o.relativenumber = true
+	end,
+})
+
 vim.o.clipboard = "unnamedplus"
 
 vim.o.undofile = true
@@ -35,7 +46,9 @@ vim.o.completeopt = "menuone,noselect"
 vim.o.termguicolors = true
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<S-b>", ":bprev<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<S-n>", ":bnext<CR>", { desc = "Previous buffer" })
