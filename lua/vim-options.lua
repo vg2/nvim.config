@@ -44,7 +44,7 @@ vim.o.timeoutlen = 300
 vim.o.completeopt = "menuone,noselect"
 
 vim.o.termguicolors = true
-
+vim.wo.wrap = false
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })

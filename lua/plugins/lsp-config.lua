@@ -59,6 +59,17 @@ return {
             telemetry = { enable = false },
           },
         },
+        eslint = {
+          enable = true,
+          format = { enable = true },
+          packageManager = "npm",
+          autoFixOnSave = true,
+          codeActionsOnSave = {
+            mode = "all",
+            rules = { "!debugger", "!no-only-tests/*" }
+          },
+          lintTask = { enable = true }
+        }
       }
 
       local mason_lspconfig = require("mason-lspconfig")
@@ -97,10 +108,7 @@ return {
         local null_ls = require("null-ls")
         null_ls.setup({
           sources = {
-            null_ls.builtins.formatting.stylua,
-            null_ls.builtins.formatting.eslint_d,
-            null_ls.builtins.diagnostics.eslint_d,
-            null_ls.builtins.code_actions.eslint_d,
+            null_ls.builtins.formatting.stylua
           },
         })
         vim.keymap.set("n", "<leader>fd", vim.lsp.buf.format, { desc = "[F]ormat [D]ocument" })
