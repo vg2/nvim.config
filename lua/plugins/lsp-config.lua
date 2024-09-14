@@ -59,17 +59,7 @@ return {
 						telemetry = { enable = false },
 					},
 				},
-				eslint = {
-					enable = true,
-					format = { enable = true },
-					packageManager = "npm",
-					autoFixOnSave = true,
-					codeActionsOnSave = {
-						mode = "all",
-						rules = { "!debugger", "!no-only-tests/*" },
-					},
-					lintTask = { enable = true },
-				},
+				biome = {},
 			}
 
 			local mason_lspconfig = require("mason-lspconfig")
