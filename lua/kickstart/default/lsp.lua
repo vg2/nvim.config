@@ -51,10 +51,14 @@ return {
 
     local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-    local servers = {}
+    local servers = {
+      ts_ls = {},
+      cssls = {},
+      html = {},
+      jsonls = {},
+    }
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
+    local ensure_installed = {
       'lua-language-server',
       'stylua',
       'markdownlint',
@@ -63,7 +67,7 @@ return {
       'css-lsp',
       'html-lsp',
       'json-lsp',
-    })
+    }
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

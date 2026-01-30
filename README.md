@@ -41,7 +41,7 @@ While plugins are configured in their respective files (e.g., `lua/kickstart/plu
 
 **LSP Servers:**
 - `lua-language-server` (Lua)
-- `ts_ls` (TypeScript/JavaScript)
+- `ts_ls` (TypeScript/JavaScript) - requires typescript-language-server installed
 - `cssls` (CSS)
 - `html` (HTML)
 - `jsonls` (JSON)
