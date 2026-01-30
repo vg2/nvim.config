@@ -1,13 +1,10 @@
 # Neovim Configuration
 
-A personalized Neovim configuration based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim).
-This setup provides a robust Personal Development Environment (PDE)
-with sane defaults and an organized structure for easy customization.
+A personalized Neovim configuration based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim). This setup provides a robust Personal Development Environment (PDE) with sane defaults and an organized structure for easy customization.
 
 ## 📂 Project Structure
 
-The configuration is modularized to separate core "kickstart"
-features from user custom settings:
+The configuration is modularized to separate core "kickstart" features from user custom settings:
 
 ```text
 lua/
@@ -24,7 +21,6 @@ lua/
 Plugins are managed via [lazy.nvim](https://github.com/folke/lazy.nvim).
 
 ### Core Plugins
-
 - **LSP**: Native LSP with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 - **Completion**: [blink.cmp](https://github.com/Saghen/blink.cmp) for fast, reliable completion.
 - **Formatting**: [conform.nvim](https://github.com/stevearc/conform.nvim) for auto-formatting.
@@ -39,14 +35,24 @@ Plugins are managed via [lazy.nvim](https://github.com/folke/lazy.nvim).
 External tools (LSP servers, linters, formatters) are managed by [mason.nvim](https://github.com/williamboman/mason.nvim).
 
 **Note on Installation:**
-While plugins are configured in their respective files (e.g., `lua/kickstart/plugins/lint.lua`), the actual installation of tools is centralized in `lua/kickstart/default/lsp.lua`. 
-This ensures all binary dependencies are installed automatically without conflicts.
+While plugins are configured in their respective files (e.g., `lua/kickstart/plugins/lint.lua`), the actual installation of tools is centralized in `lua/kickstart/default/lsp.lua`. This ensures all binary dependencies are installed automatically without conflicts.
 
-Currently installed tools include:
+### Installed Tools
 
-- `lua-language-server` (LSP)
-- `stylua` (Formatter)
-- `markdownlint` (Linter)
+**LSP Servers:**
+- `lua-language-server` (Lua)
+- `ts_ls` (TypeScript/JavaScript)
+- `cssls` (CSS)
+- `html` (HTML)
+- `jsonls` (JSON)
+
+**Linters:**
+- `markdownlint` (Markdown)
+- `oxlint` (JavaScript/TypeScript - High performance)
+
+**Formatters:**
+- `stylua` (Lua)
+- `oxfmt` (JavaScript/TypeScript - Experimental/Manual install may be required if not in Mason)
 
 ## 🚀 Getting Started
 
@@ -55,17 +61,17 @@ Currently installed tools include:
    - A [Nerd Font](https://www.nerdfonts.com/) (recommended for icons)
    - `ripgrep` (required for Telescope live grep)
    - A C compiler (gcc/clang) for Treesitter parsers
+   - Node.js & npm (required for many web formatters/LSPs)
+   - **Note:** `oxfmt` might need manual installation (e.g., `npm install -g oxfmt` or `cargo install oxfmt`) if not available via Mason.
 
 2. **Installation**:
    Clone this repository to your config location:
-
    ```bash
    git clone <your-repo-url> ~/.config/nvim
    ```
 
 3. **First Launch**:
-   Open Neovim (`nvim`). `lazy.nvim` will automatically bootstrap and install all defined plugins. 
-   Mason will then install the configured servers and tools.
+   Open Neovim (`nvim`). `lazy.nvim` will automatically bootstrap and install all defined plugins. Mason will then install the configured servers and tools.
 
 ## ⌨️ Keymaps
 

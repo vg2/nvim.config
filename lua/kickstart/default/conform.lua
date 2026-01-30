@@ -25,6 +25,10 @@ return {
     end,
     formatters_by_ft = {
       lua = { 'stylua' },
+      javascript = { 'oxfmt' },
+      typescript = { 'oxfmt' },
+      javascriptreact = { 'oxfmt' },
+      typescriptreact = { 'oxfmt' },
     },
   },
 }

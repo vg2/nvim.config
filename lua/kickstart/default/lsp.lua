@@ -58,6 +58,11 @@ return {
       'lua-language-server',
       'stylua',
       'markdownlint',
+      'oxlint',
+      'typescript-language-server',
+      'css-lsp',
+      'html-lsp',
+      'json-lsp',
     })
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
