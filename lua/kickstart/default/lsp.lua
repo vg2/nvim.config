@@ -57,6 +57,7 @@ return {
     vim.list_extend(ensure_installed, {
       'lua-language-server',
       'stylua',
+      'markdownlint',
     })
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
