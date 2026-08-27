@@ -1,5 +1,10 @@
 -- You can add your own plugins here or in other files in this directory!
 --  I promise not to create any merge conflicts in this directory :)
 --
--- See the kickstart.nvim README for more information
+-- Personal web-dev additions live in lua/custom/webdev.lua; loaded here so init.lua's
+-- `require 'custom.plugins'` (SECTION 10) triggers their runtime injection after
+-- upstream's base conform.setup() and lint setup() have run.
+require('custom.webdev').setup()
+
+-- You can add further personal plugin specs below; they will be picked up by vim.pack.
 return {}
