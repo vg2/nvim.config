@@ -11,14 +11,30 @@
 Everything below this header is fork-specific; everything above (`## Introduction` onward) is upstream
 content kept verbatim for clean merges.
 
+### Plugin management
+
+Plugins are managed via Neovim's built-in **`vim.pack`** (requires Neovim 0.12+), not `lazy.nvim`.
+Plugin specs live inline in `init.lua` (base) and in `lua/kickstart/plugins/*.lua` (upstream examples).
+The lock file `nvim-pack-lock.json` is **tracked** in this fork (upstream ignores it for maintenance
+convenience; a fork benefits from committing it for reproducible installs — see `.gitignore`).
+
 ### Layout
 
 ```text
-lua/custom/
-├── webdev.lua              # Extra LSP servers, mason tools, formatters/linters by ft + setup()
-└── plugins/
-    └── init.lua            # Loads `require('custom.webdev').setup()` (vim.pack escape-hatch)
+lua/
+├── custom/                      # Fork-specific (upstream-promised conflict-free zone)
+│   ├── webdev.lua               # Extra LSP servers, mason tools, formatters/linters by ft + setup()
+│   └── plugins/
+│       └── init.lua             # Loads `require('custom.webdev').setup()` (vim.pack escape-hatch)
+└── kickstart/
+    ├── health.lua               # Upstream's `:checkhealth kickstart` (kept verbatim)
+    └── plugins/                 # Upstream OPTIONAL example files (enabled via init.lua SECTION 10)
+        ├── autopairs.lua, debug.lua, gitsigns.lua,
+        ├── indent_line.lua, lint.lua, neo-tree.lua
 ```
+
+`lua/kickstart/default/` (this fork's pre-migration modular split) is **deleted** — its content was
+folded back into upstream's single-file `init.lua`.
 
 `init.lua` SECTION 6 merges `require('custom.webdev').servers` into the base `servers` table and
 extends `ensure_installed` with `require('custom.webdev').tools`. SECTION 10's
@@ -50,7 +66,7 @@ previous fork behaviour + newly-enabled gitsigns hunk keymaps).
 
 - `typescript-language-server`, `css-lsp`, `html-lsp`, `json-lsp` — LSP server binaries
 - `oxlint` — JavaScript/TypeScript linter (high performance)
-- `oxfmt` — JavaScript/TypeScript formatter (may need manual `npm install -g oxfmt` if unavailable in Mason)
+- `oxfmt` — JavaScript/TypeScript formatter
 - `markdownlint` — Markdown linter
 
 ### Formatters by filetype (`conform.nvim`)
@@ -71,14 +87,24 @@ previous fork behaviour + newly-enabled gitsigns hunk keymaps).
 - A C compiler (gcc/clang) for Treesitter parsers
 - Node.js & npm (required for web-dev LSPs/formatters/linters)
 - `tree-sitter` CLI (for some Treesitter parsers)
-- `oxfmt` may need manual install if absent from Mason (`npm install -g oxfmt`)
 
 ### Keymap highlights
 
 Leader is `<Space>`. Upstream's keymaps (see upstream README's "Introduction" + `init.lua`) apply
-unchanged; the gitsigns example adds `<leader>h*` hunk actions, `]c`/`[c` hunk navigation, and the
-`ih` text object. Web-dev LSP keymaps use Neovim 0.11+ defaults (`grr`, `gri`, `grd`, `grt`, `gO`,
-`gW`) wired through Telescope.
+unchanged. Fork-relevant additions:
+
+- `\` — Neo-tree reveal (and `\` inside the tree to close it; from the enabled `neo-tree` example)
+- `<leader>f` — Format buffer (`conform.nvim`)
+- gitsigns example: `<leader>h*` hunk actions (`hs` stage, `hr` reset, `hp` preview, `hb` blame,
+  `hd`/`hD` diff, `hQ`/`hq` quickfix), `]c`/`[c` hunk navigation, `ih` text object
+- LSP (Neovim 0.11+ defaults wired through Telescope): `grr` references, `gri` implementation,
+  `grd` definition, `grt` type definition, `gO` document symbols, `gW` workspace symbols,
+  `grn` rename, `gra` code action
+
+### Health check
+
+Run `:checkhealth kickstart` to verify Neovim version and base requirements (upstream's
+`lua/kickstart/health.lua`, kept verbatim).
 
 ---
 
