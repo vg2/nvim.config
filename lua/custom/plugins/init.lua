@@ -10,5 +10,8 @@ require('custom.webdev').setup()
 -- and configured via vim.pack from lua/custom/plugins/markdown.lua.
 require('custom.plugins.markdown').setup()
 
+-- .NET development plugin (Roslyn LSP, debugger, test runner, etc.)
+require('custom.plugins.dotnet').setup()
+
 -- You can add further personal plugin specs below; they will be picked up by vim.pack.
 return {}

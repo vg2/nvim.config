@@ -43,8 +43,8 @@ already-initialised `conform.formatters_by_ft` and `lint.linters_by_ft` runtime 
 
 ### Enabled example plugins (uncommented in `init.lua` SECTION 10)
 
-`indent_line`, `lint`, `autopairs`, `neo-tree`, `gitsigns` — `debug` stays commented (matches
-previous fork behaviour + newly-enabled gitsigns hunk keymaps).
+`indent_line`, `lint`, `autopairs`, `neo-tree`, `gitsigns`, `debug` — all upstream examples
+are enabled.
 
 ### Inline preferences applied to `init.lua`
 
@@ -52,6 +52,7 @@ previous fork behaviour + newly-enabled gitsigns hunk keymaps).
 - `vim.o.relativenumber = true`
 - `underline = { severity = { min = vim.diagnostic.severity.ERROR } }` (less noisy than upstream's `WARN`)
 - Diagnostic `jump.on_jump` adopted verbatim from upstream (cursor-scoped, non-focusing float).
+- `c_sharp` added to the pre-installed Treesitter parsers list.
 
 ### Web-dev LSP servers (added in `lua/custom/webdev.lua`)
 
@@ -79,14 +80,98 @@ previous fork behaviour + newly-enabled gitsigns hunk keymaps).
 - `markdown` → `markdownlint`
 - `javascript` / `typescript` / `javascriptreact` / `typescriptreact` → `oxlint`
 
+---
+
+### .NET development (`easy-dotnet.nvim`)
+
+Added in `lua/custom/plugins/dotnet.lua`. Brings common .NET IDE workflows into Neovim:
+Roslyn LSP, debugging via `nvim-dap`, test runner, package management, solution/project
+commands, Entity Framework helpers, and more.
+
+#### What it provides
+
+- **Roslyn LSP** — official .NET language server, auto-starts for C# / Razor / CSHTML
+- **Debugger** — `netcoredbg` integration via `nvim-dap` (configured in `kickstart/plugins/debug.lua`)
+- **Test runner** — Rider-like floating test runner (`:Dotnet testrunner`)
+- **Project actions** — run, build, test, watch, clean, restore via `:Dotnet ...`
+- **Package management** — add/remove packages, show outdated versions inline
+- **Solution management** — add/remove projects, select solutions
+- **Entity Framework** — migration and database commands
+- **User secrets** — edit .NET user secrets from within Neovim
+- **Auto bootstrap namespace** — auto-insert namespace + class when opening new `.cs` files
+- **Project file keymaps** — `<leader>ar` to add references inside `.csproj` / `.fsproj`
+
+#### .NET-specific prerequisites
+
+> These are **in addition** to the base prerequisites listed below.
+
+- [.NET SDK](https://dotnet.microsoft.com/download) (8.0+ recommended)
+- `EasyDotnet` global tool (required server for advanced features):
+  ```bash
+  dotnet tool install -g EasyDotnet
+  ```
+- `roslyn-language-server` global tool (LSP server; the plugin can auto-install it on first
+  C# file open, but pre-installing avoids the wait):
+  ```bash
+  dotnet tool install -g roslyn-language-server --prerelease
+  ```
+- *(Optional)* `vscode-langservers-extracted` npm package (for Razor HTML support):
+  ```bash
+  npm install -g vscode-langservers-extracted
+  ```
+- *(Optional)* `dotnet-ef` global tool (for Entity Framework commands):
+  ```bash
+  dotnet tool install --global dotnet-ef
+  ```
+
+Run `:checkhealth easy-dotnet` inside Neovim to verify the setup.
+
+#### .NET keymaps (leader: `<Space>`)
+
+All live under `<leader>d` (registered as a which-key group "[D]otnet"):
+
+| Keymap | Action |
+|--------|--------|
+| `<leader>dr` | Run project (picker) |
+| `<leader>dR` | Run default project |
+| `<leader>dd` | Debug project (picker) |
+| `<leader>dD` | Debug default project |
+| `<leader>db` | Build project |
+| `<leader>dB` | Build solution |
+| `<leader>dq` | Build + open quickfix |
+| `<leader>dt` | Test project |
+| `<leader>dT` | Test solution |
+| `<leader>dtr` | Toggle test runner |
+| `<leader>dp` | Add NuGet package |
+| `<leader>do` | Show outdated packages |
+| `<leader>ds` | Manage user secrets |
+| `<leader>dn` | Create from `dotnet new` template |
+| `<leader>drr` | Restore packages |
+| `<leader>dc` | Clean build artefacts |
+| `<leader>dem` | Add EF migration (prompts for name) |
+| `<leader>deu` | Update EF database |
+| `<leader>dw` | Watch project |
+| `<leader>dX` | Reset persisted state |
+
+Full command list: run `:Dotnet` inside Neovim.
+
 ### Prerequisites
 
 - Neovim >= 0.12 (vim.pack floor)
 - A [Nerd Font](https://www.nerdfonts.com/) (recommended for icons)
+- `git`, `make`, `unzip`
 - `ripgrep` (required for Telescope live grep)
-- A C compiler (gcc/clang) for Treesitter parsers
-- Node.js & npm (required for web-dev LSPs/formatters/linters)
+- `fd-find` (Telescope dependency)
+- A C compiler (`gcc` / `clang`) for Treesitter parsers
+- Clipboard tool (`xclip` / `xsel` / `win32yank` depending on platform)
+- Node.js & npm (required for web-dev LSPs/formatters/linters and optional Razor support)
 - `tree-sitter` CLI (for some Treesitter parsers)
+- .NET SDK 8.0+ (for `easy-dotnet.nvim`)
+- `EasyDotnet` global .NET tool (for `easy-dotnet.nvim` server)
+
+> **Tip:** A convenience script `install-prereqs.sh` is included in this repo. Run it to
+> automatically install the base system dependencies and .NET tools (see
+> [Install Prerequisites Script](#install-prerequisites-script)).
 
 ### Keymap highlights
 
@@ -277,6 +362,27 @@ examples of adding popularly requested plugins.
   * Discussions on this topic can be found here:
     * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
     * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
+
+### Install Prerequisites Script
+
+A `install-prereqs.sh` script is provided at the repo root to automate installation of
+**all** prerequisites for this fork (base + web-dev + .NET). It detects your OS
+(Ubuntu/Debian, Fedora, Arch, or macOS) and uses the appropriate package manager.
+
+What it installs:
+- Neovim (latest stable), git, make, unzip, gcc, ripgrep, fd-find, tree-sitter-cli, xclip
+- Node.js & npm (via NodeSource on Debian/Ubuntu/Fedora, or Homebrew on macOS)
+- .NET SDK 8.0
+- .NET global tools: `EasyDotnet`, `roslyn-language-server`, `dotnet-ef`
+- npm global package: `vscode-langservers-extracted`
+
+Usage:
+```bash
+chmod +x install-prereqs.sh
+./install-prereqs.sh
+```
+
+> The script is idempotent — safe to re-run; it skips already-installed items.
 
 ### Install Recipes
 
