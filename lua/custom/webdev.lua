@@ -21,6 +21,7 @@ M.tools = {
   'oxlint',
   'oxfmt',
   'markdownlint',
+  'prettierd',
 }
 
 -- Conform formatters by filetype.
@@ -30,6 +31,7 @@ M.formatters_by_ft = {
   typescript = { 'oxfmt' },
   javascriptreact = { 'oxfmt' },
   typescriptreact = { 'oxfmt' },
+  markdown = { 'prettierd', 'prettier', stop_after_first = true },
 }
 
 -- nvim-lint linters by filetype.

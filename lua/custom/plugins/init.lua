@@ -6,5 +6,9 @@
 -- upstream's base conform.setup() and lint setup() have run.
 require('custom.webdev').setup()
 
+-- Personal markdown plugins (editing tools + in-place rendering), installed
+-- and configured via vim.pack from lua/custom/plugins/markdown.lua.
+require('custom.plugins.markdown').setup()
+
 -- You can add further personal plugin specs below; they will be picked up by vim.pack.
 return {}
