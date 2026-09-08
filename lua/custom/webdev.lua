@@ -62,6 +62,14 @@ function M.setup()
     for ft, linters in pairs(M.linters_by_ft) do
       lint.linters_by_ft[ft] = linters
     end
+
+    -- nvim-lint pipes the buffer to `markdownlint --stdin`. In stdin mode,
+    -- markdownlint-cli resolves its config from the CURRENT WORKING
+    -- DIRECTORY, not from the file being edited, so `.markdownlint.json`
+    -- (which disables MD013 etc.) is silently ignored whenever Neovim is
+    -- started outside this repo and the default 80-char rule fires.
+    -- Pass the config explicitly so in-editor linting always matches it.
+    lint.linters.markdownlint.args = { '--stdin', '--config', vim.fn.stdpath 'config' .. '/.markdownlint.json' }
   end
 end
 
