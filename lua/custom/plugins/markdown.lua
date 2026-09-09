@@ -1,10 +1,12 @@
 -- [[ Personal markdown plugins ]]
 --
--- Adds two complementary markdown plugins:
+-- Adds three complementary markdown plugins:
 --  1. tadmccorkle/markdown.nvim  — markdown EDITING toolkit (inline surround,
 --     TOC, list/task editing, links, heading navigation)
 --  2. MeanderingProgrammer/render-markdown.nvim — markdown VIEWING (renders
 --     headings, code blocks, tables, checkboxes, callouts in-place)
+--  3. cavanaug/render-markdown-mermaid.nvim — mermaid diagram rendering
+--     (renders ```mermaid code blocks as Unicode diagrams via the `bm` CLI)
 --
 -- Requirements (already satisfied by this config):
 --  * Neovim >= 0.10
@@ -73,6 +75,34 @@ function M.setup()
   --   :RenderMarkdown preview  rendered buffer in a split
   vim.pack.add { 'https://github.com/MeanderingProgrammer/render-markdown.nvim' }
   require('render-markdown').setup {}
+
+  -- ============================================================
+  -- render-markdown-mermaid.nvim — mermaid diagrams
+  -- ============================================================
+  -- Renders fenced ```mermaid code blocks as Unicode box-drawing diagrams,
+  -- drawn as virtual lines above the block. When the cursor enters the block
+  -- the diagram is hidden and the raw Mermaid source is revealed for editing
+  -- — the same behavior render-markdown applies to tables. Re-renders
+  -- (debounced) as the source changes.
+  --
+  -- Works in any terminal (plain text, no image protocol needed).
+  --
+  -- Requirements:
+  --  * `bm` (Beautiful Mermaid) on PATH: `npm i -g beautiful-mermaid-cli`
+  --    (also installed by install-prereqs.sh)
+  --  * treesitter 'markdown' parser (already required by render-markdown)
+  --
+  -- Useful commands:
+  --   :checkhealth render-markdown-mermaid
+  vim.pack.add { 'https://github.com/cavanaug/render-markdown-mermaid.nvim' }
+  require('render-markdown-mermaid').setup {
+    -- We already called render-markdown.setup() above; don't let this
+    -- plugin re-configure it.
+    auto_setup_render_markdown = false,
+    -- 'above' draws the diagram above the fence (README default). Use
+    -- 'below' to draw it underneath instead.
+    placement = 'above',
+  }
 end
 
 return M

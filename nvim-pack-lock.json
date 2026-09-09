@@ -104,6 +104,10 @@
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "render-markdown-mermaid.nvim": {
+      "rev": "d4b4443110493a81af5d956efbcc042cdb453ceb",
+      "src": "https://github.com/cavanaug/render-markdown-mermaid.nvim"
+    },
     "render-markdown.nvim": {
       "rev": "4663eb3ecd538bd5062628fb6d95bbe6bdca78f6",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"

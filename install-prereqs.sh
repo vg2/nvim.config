@@ -326,7 +326,9 @@ install_npm_globals() {
     return
   fi
 
-  local pkgs=("vscode-langservers-extracted")
+  # beautiful-mermaid-cli provides `bm`, the Mermaid renderer used by
+  # cavanaug/render-markdown-mermaid.nvim (see lua/custom/plugins/markdown.lua)
+  local pkgs=("vscode-langservers-extracted" "beautiful-mermaid-cli")
   for pkg in "${pkgs[@]}"; do
     if npm list -g "$pkg" &>/dev/null 2>&1; then
       ok "$pkg already installed globally"

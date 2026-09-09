@@ -80,6 +80,18 @@ are enabled.
 - `markdown` → `markdownlint`
 - `javascript` / `typescript` / `javascriptreact` / `typescriptreact` → `oxlint`
 
+### Markdown plugins (`lua/custom/plugins/markdown.lua`)
+
+- `tadmccorkle/markdown.nvim` — editing toolkit: surround styles (`gs`/`ds`/`cs`),
+  links (`gl`/`gx`), heading navigation (`]]`/`[[`, `]h`/`]H`), list/task editing
+  (`<M-l><M-o>`, `<M-L><M-O>`, `<leader>mt`), `:MDInsertToc` / `:MDToc`
+- `MeanderingProgrammer/render-markdown.nvim` — in-place viewing: styled
+  headings, code blocks, tables, checkboxes, callouts. `:RenderMarkdown toggle`
+- `cavanaug/render-markdown-mermaid.nvim` — renders fenced ```mermaid``` blocks
+  as Unicode diagrams (virtual lines above the block, via the `bm` CLI);
+  source is revealed when the cursor enters the block. Any terminal works —
+  no image protocol required
+
 ---
 
 ### .NET development (`easy-dotnet.nvim`)
@@ -165,6 +177,7 @@ Full command list: run `:Dotnet` inside Neovim.
 - A C compiler (`gcc` / `clang`) for Treesitter parsers
 - Clipboard tool (`xclip` / `xsel` / `win32yank` depending on platform)
 - Node.js & npm (required for web-dev LSPs/formatters/linters and optional Razor support)
+- `bm` — Beautiful Mermaid CLI (npm global `beautiful-mermaid-cli`, renders mermaid diagrams)
 - `tree-sitter` CLI (for some Treesitter parsers)
 - .NET SDK 8.0+ (for `easy-dotnet.nvim`)
 - `EasyDotnet` global .NET tool (for `easy-dotnet.nvim` server)
@@ -374,7 +387,7 @@ What it installs:
 - Node.js & npm (via NodeSource on Debian/Ubuntu/Fedora, or Homebrew on macOS)
 - .NET SDK 8.0
 - .NET global tools: `EasyDotnet`, `roslyn-language-server`, `dotnet-ef`
-- npm global package: `vscode-langservers-extracted`
+- npm global packages: `vscode-langservers-extracted`, `beautiful-mermaid-cli` (provides `bm`)
 
 Usage:
 ```bash
