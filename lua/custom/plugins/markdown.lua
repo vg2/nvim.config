@@ -21,6 +21,27 @@ local M = {}
 
 function M.setup()
   -- ============================================================
+  -- MDX support (.mdx files)
+  -- ============================================================
+  -- Neovim has no built-in filetype for MDX, so `.mdx` files otherwise
+  -- open as plain text: no treesitter highlighting and none of the
+  -- markdown plugins below attach. Two registrations fix that:
+  --
+  --  * vim.filetype.add gives `.mdx` its own `mdx` filetype.
+  --  * vim.treesitter.language.register maps that filetype onto the
+  --    already-installed `markdown` parser, so highlighting works with
+  --    no extra parser. (MDX-only syntax such as JSX/import/export may
+  --    show as errors, but the surrounding markdown renders normally.)
+  --
+  -- Bonus: tadmccorkle/markdown.nvim keys its FileType autocmd off
+  -- vim.treesitter.language.get_filetypes('markdown'), so the register
+  -- call makes it attach to `mdx` buffers automatically. The mermaid
+  -- plugin already treats `mdx` as supported. render-markdown.nvim is
+  -- told about `mdx` explicitly via `file_types` below.
+  vim.filetype.add { extension = { mdx = 'mdx' } }
+  vim.treesitter.language.register('markdown', 'mdx')
+
+  -- ============================================================
   -- markdown.nvim — editing tools
   -- ============================================================
   -- See `:help markdown.nvim` and `:help markdown.configuration` for details.
@@ -74,7 +95,12 @@ function M.setup()
   --   :RenderMarkdown expand   widen anti-conceal margin on cursor line
   --   :RenderMarkdown preview  rendered buffer in a split
   vim.pack.add { 'https://github.com/MeanderingProgrammer/render-markdown.nvim' }
-  require('render-markdown').setup {}
+  require('render-markdown').setup {
+    -- Render MDX buffers as well as plain markdown. `mdx` is the
+    -- filetype registered for `.mdx` files at the top of M.setup(); it
+    -- shares the `markdown` treesitter parser via language.register().
+    file_types = { 'markdown', 'mdx' },
+  }
 
   -- ============================================================
   -- render-markdown-mermaid.nvim — mermaid diagrams
