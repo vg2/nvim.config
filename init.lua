@@ -413,10 +413,19 @@ do
     },
   }
 
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+  -- Light theme used by the toggler (see lua/custom/theme.lua).
+  vim.pack.add { { src = gh 'catppuccin/nvim', name = 'catppuccin' } }
+  ---@diagnostic disable-next-line: missing-fields
+  require('catppuccin').setup {
+    styles = {
+      comments = {}, -- Disable italics in comments
+    },
+  }
+
+  -- Load the colorscheme. The theme now follows the terminal's light/dark mode
+  -- automatically (see `lua/custom/theme.lua`). Use `:ToggleTheme` or <leader>tt to
+  -- override it manually for the rest of the session.
+  require('custom.theme').setup()
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
