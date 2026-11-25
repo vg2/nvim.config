@@ -13,5 +13,8 @@ require('custom.plugins.markdown').setup()
 -- .NET development plugin (Roslyn LSP, debugger, test runner, etc.)
 require('custom.plugins.dotnet').setup()
 
+-- Rust development (rustaceanvim + rust-analyzer, codelldb debugging, crates.nvim)
+require('custom.plugins.rust').setup()
+
 -- You can add further personal plugin specs below; they will be picked up by vim.pack.
 return {}

@@ -366,6 +366,41 @@ ensure_dotnet_tools_path() {
 }
 
 # ---------------------------------------------------------------------------
+# 7. Rust toolchain (rustup + rust-analyzer, rustfmt, clippy)
+# ---------------------------------------------------------------------------
+
+install_rust() {
+  info "=== Step 7: Rust toolchain ==="
+
+  export PATH="$HOME/.cargo/bin:$PATH"
+
+  if ! has_cmd rustup; then
+    info "Installing rustup (stable toolchain)..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    export PATH="$HOME/.cargo/bin:$PATH"
+  else
+    ok "rustup already installed: $(rustup --version 2>/dev/null)"
+  fi
+
+  # rust-analyzer is used by rustaceanvim (lua/custom/plugins/rust.lua);
+  # installing it via rustup keeps it in sync with the toolchain.
+  info "Ensuring rustup components: rust-analyzer rustfmt clippy"
+  rustup component add rust-analyzer rustfmt clippy
+  ok "Rust $(rustc --version) ready"
+
+  local shell_rc=""
+  if [[ "$SHELL" == */zsh ]]; then
+    shell_rc="$HOME/.zshrc"
+  elif [[ "$SHELL" == */bash ]]; then
+    shell_rc="$HOME/.bashrc"
+  fi
+  if [[ -n "$shell_rc" && -f "$shell_rc" ]] && ! grep -q '.cargo/bin' "$shell_rc" 2>/dev/null; then
+    info "Adding \$HOME/.cargo/bin to PATH in $shell_rc"
+    echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> "$shell_rc"
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -381,6 +416,7 @@ main() {
   install_dotnet_tools
   install_npm_globals
   ensure_dotnet_tools_path
+  install_rust
 
   echo
   ok "=== Installation complete ==="
